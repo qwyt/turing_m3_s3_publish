@@ -7618,7 +7618,7 @@ dtype: object</pre>
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Use this to select the model to train, gennerally there are certain advantages and disadvantages between using different tuning targets:</span>
 <span class="c1"># e.g. F1 provides better classification accuracy</span>
-<span class="c1"># PR-AUC however is only slightly worse but has much smoother probabilities which is more </span>
+<span class="c1"># PR-AUC however is only slightly worse but has much smoother probabilities which is more</span>
 <span class="c1"># useful when when selecting thresholds for grades</span>
 <span class="n">INCLUDE_MODELS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># "XGBoostTuneLogLoss",</span>
@@ -7651,7 +7651,9 @@ dtype: object</pre>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="n">transformed_data</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">load_processed_dataset</span><span class="p">(</span><span class="n">sample_size</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">SampleSize</span><span class="o">.</span><span class="n">Full</span><span class="p">,</span> <span class="n">tuning_df</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="n">transformed_data</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">load_processed_dataset</span><span class="p">(</span>
+    <span class="n">sample_size</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">SampleSize</span><span class="o">.</span><span class="n">Full</span><span class="p">,</span> <span class="n">tuning_df</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 <span class="k">if</span> <span class="n">VERBOSE</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total Samples Loaded </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">transformed_data</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
@@ -7692,8 +7694,10 @@ dtype: object</pre>
 
 <span class="k">for</span> <span class="n">model_key</span> <span class="ow">in</span> <span class="n">INCLUDE_MODELS</span><span class="p">:</span>
     <span class="n">tuning_result</span> <span class="o">=</span> <span class="n">TuningResult</span><span class="o">.</span><span class="n">load_serialized_tuning_result</span><span class="p">(</span><span class="n">model_key</span><span class="p">)</span>
-    
-    <span class="n">cv_results</span> <span class="o">=</span> <span class="n">build_production_model_for_tuning_result</span><span class="p">(</span><span class="n">tuning_result</span><span class="o">=</span><span class="n">tuning_result</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">transformed_data</span><span class="p">)</span>
+
+    <span class="n">cv_results</span> <span class="o">=</span> <span class="n">build_production_model_for_tuning_result</span><span class="p">(</span>
+        <span class="n">tuning_result</span><span class="o">=</span><span class="n">tuning_result</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">transformed_data</span>
+    <span class="p">)</span>
     <span class="n">cv_results_all_models</span><span class="p">[</span><span class="n">model_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">cv_results</span>
 
     <span class="n">ModelTrainingResult</span><span class="o">.</span><span class="n">serialize_model</span><span class="p">(</span><span class="n">cv_results</span><span class="p">,</span> <span class="n">model_key</span><span class="p">)</span>
@@ -7829,7 +7833,9 @@ XGBoostTunePRAUC: 172.1 seconds
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">stats_utils</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">model_key</span> <span class="ow">in</span> <span class="n">cv_results_all_models</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">cv_results_all_models</span><span class="p">[</span><span class="n">model_key</span><span class="p">]</span>
-    <span class="n">feature_importances</span> <span class="o">=</span> <span class="n">stats_utils</span><span class="o">.</span><span class="n">get_model_feature_importances</span><span class="p">(</span><span class="n">model_config</span><span class="p">,</span> <span class="n">transformed_data</span><span class="p">)</span>
+    <span class="n">feature_importances</span> <span class="o">=</span> <span class="n">stats_utils</span><span class="o">.</span><span class="n">get_model_feature_importances</span><span class="p">(</span>
+        <span class="n">model_config</span><span class="p">,</span> <span class="n">transformed_data</span>
+    <span class="p">)</span>
 
     <span class="n">graph</span><span class="o">.</span><span class="n">render_feature_importances_chart</span><span class="p">(</span>
         <span class="n">feature_importances</span><span class="o">=</span><span class="n">feature_importances</span><span class="p">,</span>
@@ -8405,12 +8411,16 @@ XGBoostTunePRAUC: 172.1 seconds
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">value_counts</span> <span class="o">=</span> <span class="n">transformed_data</span><span class="p">[</span><span class="s2">"pass__grade"</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
 <span class="n">proportions</span> <span class="o">=</span> <span class="n">value_counts</span> <span class="o">/</span> <span class="n">value_counts</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-<span class="n">loan_status_ratio</span> <span class="o">=</span> <span class="n">transformed_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">'pass__grade'</span><span class="p">)[</span><span class="s1">'target__loan_status'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-    <span class="s1">'Counts'</span><span class="p">:</span> <span class="n">value_counts</span><span class="p">,</span>
-    <span class="s1">'Proportion'</span><span class="p">:</span> <span class="n">proportions</span><span class="p">,</span>
-    <span class="s1">'Loan_Status_Ratio'</span><span class="p">:</span> <span class="n">loan_status_ratio</span>
-<span class="p">})</span>
+<span class="n">loan_status_ratio</span> <span class="o">=</span> <span class="n">transformed_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"pass__grade"</span><span class="p">)[</span>
+    <span class="s2">"target__loan_status"</span>
+<span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+    <span class="p">{</span>
+        <span class="s2">"Counts"</span><span class="p">:</span> <span class="n">value_counts</span><span class="p">,</span>
+        <span class="s2">"Proportion"</span><span class="p">:</span> <span class="n">proportions</span><span class="p">,</span>
+        <span class="s2">"Loan_Status_Ratio"</span><span class="p">:</span> <span class="n">loan_status_ratio</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">)</span>
 
 <span class="n">source_df_grades_summary</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
 <span class="n">source_df_grades_summary</span>
@@ -8530,8 +8540,12 @@ XGBoostTunePRAUC: 172.1 seconds
 
 <span class="n">log_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_grades</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># Change here, start range at 2</span>
 <span class="n">scale_factor</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">log_scale</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-<span class="n">cumulative_log_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_grades</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)))</span>  <span class="c1"># Cumulative sum of log values</span>
-<span class="n">normalized_log_scale</span> <span class="o">=</span> <span class="n">cumulative_log_scale</span> <span class="o">/</span> <span class="n">cumulative_log_scale</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># Normalize to max out at 1</span>
+<span class="n">cumulative_log_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span>
+    <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">num_grades</span> <span class="o">+</span> <span class="mi">2</span><span class="p">))</span>
+<span class="p">)</span>  <span class="c1"># Cumulative sum of log values</span>
+<span class="n">normalized_log_scale</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">cumulative_log_scale</span> <span class="o">/</span> <span class="n">cumulative_log_scale</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="p">)</span>  <span class="c1"># Normalize to max out at 1</span>
 
 <span class="n">sections</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
@@ -8604,30 +8618,36 @@ XGBoostTunePRAUC: 172.1 seconds
 <span class="sd">    - DataFrame: A DataFrame containing the calculated metrics.</span>
 <span class="sd">    """</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">total_loan_amount</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">'pass__loan_amnt'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">total_loan_amount</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"pass__loan_amnt"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
     <span class="c1"># Total Loss - Sum of loan amounts for loans that defaulted</span>
-    <span class="n">total_loss</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s1">'target__loan_status'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'pass__loan_amnt'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">total_loss</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">"target__loan_status"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"pass__loan_amnt"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
     <span class="c1"># Total Interest Paid - Only from loans that did not default</span>
-    <span class="n">data</span><span class="p">[</span><span class="s1">'interest_paid'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">'pass__loan_amnt'</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="s1">'pass__int_rate'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s1">'target__loan_status'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">total_interest_paid</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">'interest_paid'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">"interest_paid"</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">"pass__loan_amnt"</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="s2">"pass__int_rate"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s2">"target__loan_status"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">total_interest_paid</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"interest_paid"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-    <span class="n">data</span><span class="p">[</span><span class="s1">'expected_interest'</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">'pass__loan_amnt'</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s1">'pass__int_rate'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span>
-    <span class="n">expected_total_interest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">'expected_interest'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">"expected_interest"</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"pass__loan_amnt"</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="p">[</span><span class="s2">"pass__int_rate"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span>
+    <span class="n">expected_total_interest</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">"expected_interest"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
     <span class="n">total_return_percent</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_interest_paid</span> <span class="o">/</span> <span class="n">total_loan_amount</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
     <span class="n">expected_return_percent</span> <span class="o">=</span> <span class="p">(</span><span class="n">expected_total_interest</span> <span class="o">/</span> <span class="n">total_loan_amount</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
-    <span class="n">metrics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-        <span class="s2">"Total Loan Amount"</span><span class="p">:</span> <span class="p">[</span><span class="n">stats_utils</span><span class="o">.</span><span class="n">format_amount</span><span class="p">(</span><span class="n">total_loan_amount</span><span class="p">)],</span>
-        <span class="s2">"Total Interest Paid"</span><span class="p">:</span> <span class="p">[</span><span class="n">stats_utils</span><span class="o">.</span><span class="n">format_amount</span><span class="p">(</span><span class="n">total_interest_paid</span><span class="p">)],</span>
-        <span class="s2">"Expected Return %"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">expected_return_percent</span><span class="si">:</span><span class="s2">2f</span><span class="si">}</span><span class="s2">"</span><span class="p">],</span>
-        <span class="s2">"Total Return %"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_return_percent</span><span class="si">:</span><span class="s2">2f</span><span class="si">}</span><span class="s2">"</span><span class="p">],</span>
-        <span class="s2">"Total Loss"</span><span class="p">:</span> <span class="p">[</span><span class="n">stats_utils</span><span class="o">.</span><span class="n">format_amount</span><span class="p">(</span><span class="n">total_loss</span><span class="p">)]</span>
-    <span class="p">})</span>
+    <span class="n">metrics_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">"Total Loan Amount"</span><span class="p">:</span> <span class="p">[</span><span class="n">stats_utils</span><span class="o">.</span><span class="n">format_amount</span><span class="p">(</span><span class="n">total_loan_amount</span><span class="p">)],</span>
+            <span class="s2">"Total Interest Paid"</span><span class="p">:</span> <span class="p">[</span><span class="n">stats_utils</span><span class="o">.</span><span class="n">format_amount</span><span class="p">(</span><span class="n">total_interest_paid</span><span class="p">)],</span>
+            <span class="s2">"Expected Return %"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">expected_return_percent</span><span class="si">:</span><span class="s2">2f</span><span class="si">}</span><span class="s2">"</span><span class="p">],</span>
+            <span class="s2">"Total Return %"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_return_percent</span><span class="si">:</span><span class="s2">2f</span><span class="si">}</span><span class="s2">"</span><span class="p">],</span>
+            <span class="s2">"Total Loss"</span><span class="p">:</span> <span class="p">[</span><span class="n">stats_utils</span><span class="o">.</span><span class="n">format_amount</span><span class="p">(</span><span class="n">total_loss</span><span class="p">)],</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">metrics_df</span>
 </pre></div>
@@ -8735,44 +8755,80 @@ In future version of our model we should take these factors into account.</li>
 <span class="sd">    - DataFrame: A DataFrame containing both actual and hypothetical financial metrics, with appropriate formatting.</span>
 <span class="sd">    """</span>
     <span class="n">data_with_predictions</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">data_with_predictions</span><span class="p">[</span><span class="s1">'predictions'</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span>
+    <span class="n">data_with_predictions</span><span class="p">[</span><span class="s2">"predictions"</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span>
 
-    <span class="n">total_loan_amount_actual</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">'pass__loan_amnt'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1_000_000</span>  <span class="c1"># Convert to millions</span>
-    <span class="n">total_interest_paid_actual</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s1">'pass__loan_amnt'</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="s1">'pass__int_rate'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s1">'target__loan_status'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
-        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1_000_000</span>
-    <span class="n">total_loss_actual</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span>
-                                     <span class="s1">'target__loan_status'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'pass__loan_amnt'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1_000_000</span>  
-    <span class="n">total_return_percent_actual</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_interest_paid_actual</span> <span class="o">*</span> <span class="mi">1_000_000</span> <span class="o">/</span> <span class="p">(</span>
-            <span class="n">total_loan_amount_actual</span> <span class="o">*</span> <span class="mi">1_000_000</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="n">total_loan_amount_actual</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">data</span><span class="p">[</span><span class="s2">"pass__loan_amnt"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1_000_000</span>
+    <span class="p">)</span>  <span class="c1"># Convert to millions</span>
+    <span class="n">total_interest_paid_actual</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">"pass__loan_amnt"</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="s2">"pass__int_rate"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s2">"target__loan_status"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="o">/</span> <span class="mi">1_000_000</span>
+    <span class="p">)</span>
+    <span class="n">total_loss_actual</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">"target__loan_status"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"pass__loan_amnt"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1_000_000</span>
+    <span class="p">)</span>
+    <span class="n">total_return_percent_actual</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">total_interest_paid_actual</span> <span class="o">*</span> <span class="mi">1_000_000</span> <span class="o">/</span> <span class="p">(</span><span class="n">total_loan_amount_actual</span> <span class="o">*</span> <span class="mi">1_000_000</span><span class="p">)</span>
+    <span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
 
     <span class="c1"># Calculations for hypothetical when using the model scenario</span>
-    <span class="n">hypothetical_data</span> <span class="o">=</span> <span class="n">data_with_predictions</span><span class="p">[</span><span class="n">data_with_predictions</span><span class="p">[</span><span class="s1">'predictions'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">total_loan_amount_hypo</span> <span class="o">=</span> <span class="n">hypothetical_data</span><span class="p">[</span><span class="s1">'pass__loan_amnt'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1_000_000</span> 
-    <span class="n">total_interest_paid_hypo</span> <span class="o">=</span> <span class="n">hypothetical_data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">'pass__loan_amnt'</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="s1">'pass__int_rate'</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span>
-                                                       <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1_000_000</span>  <span class="c1"># Convert to millions</span>
-    <span class="n">total_loss_hypo</span> <span class="o">=</span> <span class="n">hypothetical_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">hypothetical_data</span><span class="p">[</span>
-                                                <span class="s1">'target__loan_status'</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">'pass__loan_amnt'</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1_000_000</span>  <span class="c1"># Convert to millions</span>
-    <span class="n">total_return_percent_hypo</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_interest_paid_hypo</span> <span class="o">*</span> <span class="mi">1_000_000</span> <span class="o">/</span> <span class="p">(</span>
-            <span class="n">total_loan_amount_hypo</span> <span class="o">*</span> <span class="mi">1_000_000</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span>  <span class="c1"># Recalculate to correct percentage if total_loan_amount_hypo &gt; 0 else 0</span>
+    <span class="n">hypothetical_data</span> <span class="o">=</span> <span class="n">data_with_predictions</span><span class="p">[</span><span class="n">data_with_predictions</span><span class="p">[</span><span class="s2">"predictions"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">total_loan_amount_hypo</span> <span class="o">=</span> <span class="n">hypothetical_data</span><span class="p">[</span><span class="s2">"pass__loan_amnt"</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="mi">1_000_000</span>
+    <span class="n">total_interest_paid_hypo</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">hypothetical_data</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">"pass__loan_amnt"</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="s2">"pass__int_rate"</span><span class="p">]</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="o">/</span> <span class="mi">1_000_000</span>
+    <span class="p">)</span>  <span class="c1"># Convert to millions</span>
+    <span class="n">total_loss_hypo</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">hypothetical_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span>
+            <span class="n">hypothetical_data</span><span class="p">[</span><span class="s2">"target__loan_status"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"pass__loan_amnt"</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="o">/</span> <span class="mi">1_000_000</span>
+    <span class="p">)</span>  <span class="c1"># Convert to millions</span>
+    <span class="n">total_return_percent_hypo</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">total_interest_paid_hypo</span> <span class="o">*</span> <span class="mi">1_000_000</span> <span class="o">/</span> <span class="p">(</span><span class="n">total_loan_amount_hypo</span> <span class="o">*</span> <span class="mi">1_000_000</span><span class="p">)</span>
+    <span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>  <span class="c1"># Recalculate to correct percentage if total_loan_amount_hypo &gt; 0 else 0</span>
 
-    <span class="n">losses_avoided</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_loss_actual</span> <span class="o">-</span> <span class="n">total_loss_hypo</span><span class="p">)</span> 
-    <span class="n">interest_lost</span> <span class="o">=</span> <span class="p">(</span><span class="n">total_interest_paid_hypo</span> <span class="o">-</span> <span class="n">total_interest_paid_actual</span><span class="p">)</span>  
+    <span class="n">losses_avoided</span> <span class="o">=</span> <span class="n">total_loss_actual</span> <span class="o">-</span> <span class="n">total_loss_hypo</span>
+    <span class="n">interest_lost</span> <span class="o">=</span> <span class="n">total_interest_paid_hypo</span> <span class="o">-</span> <span class="n">total_interest_paid_actual</span>
     <span class="n">total_applications_actual</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">total_applications_hypo</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">hypothetical_data</span><span class="p">)</span>
 
     <span class="n">improvement_metrics</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">"Total Loan Amount"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_loan_amount_actual</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_loan_amount_hypo</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">],</span>
-        <span class="s2">"Total Interest Paid"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_interest_paid_actual</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_interest_paid_hypo</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">],</span>
-        <span class="s2">"Total Return %"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_return_percent_actual</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_return_percent_hypo</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">],</span>
-        <span class="s2">"Default Rate"</span><span class="p">:</span>  <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">data_with_predictions</span><span class="p">[</span><span class="s1">'target__loan_status'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">hypothetical_data</span><span class="p">[</span><span class="s1">'target__loan_status'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">],</span>
+        <span class="s2">"Total Loan Amount"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_loan_amount_actual</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_loan_amount_hypo</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s2">"Total Interest Paid"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_interest_paid_actual</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_interest_paid_hypo</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s2">"Total Return %"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_return_percent_actual</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_return_percent_hypo</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%"</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s2">"Default Rate"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">data_with_predictions</span><span class="p">[</span><span class="s1">'target__loan_status'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">hypothetical_data</span><span class="p">[</span><span class="s1">'target__loan_status'</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+        <span class="p">],</span>
         <span class="s2">"Total Loss"</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_loss_actual</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">total_loss_hypo</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">],</span>
         <span class="s2">"Losses Avoided"</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">losses_avoided</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">],</span>
         <span class="s2">"Interest Lost"</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">interest_lost</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">M"</span><span class="p">],</span>
-        <span class="s2">"Total Applications Accepted"</span><span class="p">:</span> <span class="p">[</span><span class="n">total_applications_actual</span><span class="p">,</span> <span class="n">total_applications_hypo</span><span class="p">],</span>
+        <span class="s2">"Total Applications Accepted"</span><span class="p">:</span> <span class="p">[</span>
+            <span class="n">total_applications_actual</span><span class="p">,</span>
+            <span class="n">total_applications_hypo</span><span class="p">,</span>
+        <span class="p">],</span>
     <span class="p">}</span>
 
-    <span class="n">improvement_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">improvement_metrics</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">"Actual"</span><span class="p">,</span> <span class="s2">"Hypothetical"</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">improvement_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+        <span class="n">improvement_metrics</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">"Actual"</span><span class="p">,</span> <span class="s2">"Hypothetical"</span><span class="p">]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">T</span>
 
     <span class="k">return</span> <span class="n">improvement_df</span>
 </pre></div>
@@ -8914,11 +8970,13 @@ In future version of our model we should take these factors into account.</li>
 <div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># We'll bin the predicted probabilities into grades which, the maintain as much consistency as possible with the grading scale used by Lenders Club we'll keep the proportion of loans in each grade the same. </span>
-<span class="n">target_cm_data_sorted</span> <span class="o">=</span> <span class="n">target_cm_data</span><span class="o">.</span><span class="n">probabilities</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="c1"># We'll bin the predicted probabilities into grades which, the maintain as much consistency as possible with the grading scale used by Lenders Club we'll keep the proportion of loans in each grade the same.</span>
+<span class="n">target_cm_data_sorted</span> <span class="o">=</span> <span class="n">target_cm_data</span><span class="o">.</span><span class="n">probabilities</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span>
+    <span class="n">drop</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 
 <span class="c1"># Calculate cumulative proportions for thresholds</span>
-<span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s1">'Cumulative'</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s1">'Proportion'</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+<span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s2">"Cumulative"</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s2">"Proportion"</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
 
 <span class="n">sections</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -8937,17 +8995,19 @@ In future version of our model we should take these factors into account.</li>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">start</span> <span class="o">=</span> <span class="n">target_cm_data_sorted</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">previous_cumulative</span><span class="p">)</span>
 
-    <span class="n">end</span> <span class="o">=</span> <span class="n">target_cm_data_sorted</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'Cumulative'</span><span class="p">])</span>
-    <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-        <span class="s2">"label"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">grade</span><span class="si">}</span><span class="s2"> Grade"</span><span class="p">,</span>
-        <span class="s2">"start"</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span>
-        <span class="s2">"end"</span><span class="p">:</span> <span class="n">end</span><span class="p">,</span>
-        <span class="c1"># Assign colors and descriptions as needed</span>
-        <span class="s2">"color"</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-        <span class="s2">"description"</span><span class="p">:</span> <span class="s2">""</span>
-    <span class="p">})</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">target_cm_data_sorted</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"Cumulative"</span><span class="p">])</span>
+    <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">"label"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">grade</span><span class="si">}</span><span class="s2"> Grade"</span><span class="p">,</span>
+            <span class="s2">"start"</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span>
+            <span class="s2">"end"</span><span class="p">:</span> <span class="n">end</span><span class="p">,</span>
+            <span class="c1"># Assign colors and descriptions as needed</span>
+            <span class="s2">"color"</span><span class="p">:</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="s2">"description"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
     <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="n">previous_cumulative</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Cumulative'</span><span class="p">]</span>
+    <span class="n">previous_cumulative</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">"Cumulative"</span><span class="p">]</span>
 
 <span class="c1"># Example output</span>
 <span class="c1"># for section in sections:</span>
@@ -8968,23 +9028,25 @@ In future version of our model we should take these factors into account.</li>
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># Assuming source_df_grades_summary and target_cm_data are already defined</span>
 <span class="c1"># Sort probabilities for cumulative proportion mapping</span>
 <span class="n">target_cm_data_sorted</span> <span class="o">=</span> <span class="n">target_cm_data</span><span class="o">.</span><span class="n">probabilities</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span>
-    <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
+    <span class="n">drop</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
 
-<span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s1">'Cumulative'</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s1">'Proportion'</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+<span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s2">"Cumulative"</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s2">"Proportion"</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
 
 <span class="n">sections</span> <span class="o">=</span> <span class="p">[]</span>
 
-<span class="n">palette</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">"YlOrRd"</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span>
-    <span class="n">source_df_grades_summary</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span> 
+<span class="n">palette</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">color_palette</span><span class="p">(</span><span class="s2">"YlOrRd"</span><span class="p">,</span> <span class="n">n_colors</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">source_df_grades_summary</span><span class="p">)</span> <span class="o">-</span> <span class="mi">4</span><span class="p">)</span>
 
 <span class="n">start_color</span> <span class="o">=</span> <span class="s2">"grey"</span>
-<span class="n">colors</span> <span class="o">=</span> <span class="p">[</span><span class="n">start_color</span><span class="p">]</span> <span class="o">+</span> <span class="n">palette</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"red"</span><span class="p">]</span>  <span class="c1"># Ensure "red" is used for the merged EFG section</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">[</span><span class="n">start_color</span><span class="p">]</span> <span class="o">+</span> <span class="n">palette</span> <span class="o">+</span> <span class="p">[</span><span class="s2">"red"</span><span class="p">]</span>
+<span class="p">)</span>  <span class="c1"># Ensure "red" is used for the merged EFG section</span>
 
 <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">previous_cumulative</span> <span class="o">=</span> <span class="mi">0</span>  
+<span class="n">previous_cumulative</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="n">efg_weights</span> <span class="o">=</span> <span class="n">source_df_grades_summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'E'</span><span class="p">:</span><span class="s1">'G'</span><span class="p">,</span> <span class="s1">'Counts'</span><span class="p">]</span>
-<span class="n">efg_risks</span> <span class="o">=</span> <span class="n">source_df_grades_summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s1">'E'</span><span class="p">:</span><span class="s1">'G'</span><span class="p">,</span> <span class="s1">'Loan_Status_Ratio'</span><span class="p">]</span>
+<span class="n">efg_weights</span> <span class="o">=</span> <span class="n">source_df_grades_summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">"E"</span><span class="p">:</span><span class="s2">"G"</span><span class="p">,</span> <span class="s2">"Counts"</span><span class="p">]</span>
+<span class="n">efg_risks</span> <span class="o">=</span> <span class="n">source_df_grades_summary</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">"E"</span><span class="p">:</span><span class="s2">"G"</span><span class="p">,</span> <span class="s2">"Loan_Status_Ratio"</span><span class="p">]</span>
 <span class="n">weighted_avg_risk_efg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">efg_risks</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">efg_weights</span><span class="p">)</span>
 
 <span class="c1"># Find thresholds in target_cm_data that match cumulative proportions</span>
@@ -8992,37 +9054,39 @@ In future version of our model we should take these factors into account.</li>
     <span class="k">if</span> <span class="n">grade</span> <span class="o">==</span> <span class="n">source_df_grades_summary</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
         <span class="n">start</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">start</span> <span class="o">=</span> <span class="n">target_cm_data_sorted</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">previous_cumulative</span><span class="p">)</span> 
+        <span class="n">start</span> <span class="o">=</span> <span class="n">target_cm_data_sorted</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">previous_cumulative</span><span class="p">)</span>
 
-    <span class="n">end</span> <span class="o">=</span> <span class="n">target_cm_data_sorted</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">'Cumulative'</span><span class="p">])</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">target_cm_data_sorted</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">"Cumulative"</span><span class="p">])</span>
 
     <span class="c1">#  merge grades E, F, G</span>
     <span class="k">if</span> <span class="n">grade</span> <span class="o">==</span> <span class="s2">"E"</span><span class="p">:</span>
-        <span class="k">continue</span> 
+        <span class="k">continue</span>
     <span class="k">elif</span> <span class="n">grade</span> <span class="o">==</span> <span class="s2">"F"</span><span class="p">:</span>
-        <span class="k">continue</span>  
-    <span class="k">elif</span> <span class="n">grade</span> <span class="o">==</span> <span class="s2">"G"</span><span class="p">:</span> 
+        <span class="k">continue</span>
+    <span class="k">elif</span> <span class="n">grade</span> <span class="o">==</span> <span class="s2">"G"</span><span class="p">:</span>
         <span class="n">label</span> <span class="o">=</span> <span class="s2">"E-F-G Grade"</span>
         <span class="n">color</span> <span class="o">=</span> <span class="s2">"red"</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">grade</span><span class="si">}</span><span class="s2"> Grade"</span>
         <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">grade</span> <span class="o">==</span> <span class="s2">"G"</span><span class="p">:</span> 
+    <span class="k">if</span> <span class="n">grade</span> <span class="o">==</span> <span class="s2">"G"</span><span class="p">:</span>
         <span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Expected D. R.: </span><span class="si">{</span><span class="n">weighted_avg_risk_efg</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">"</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">description</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"Expected D. R.: </span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">'Loan_Status_Ratio'</span><span class="p">]</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">"</span>
 
-    <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-        <span class="s2">"label"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
-        <span class="s2">"start"</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span>
-        <span class="s2">"end"</span><span class="p">:</span> <span class="n">end</span><span class="p">,</span>
-        <span class="s2">"color"</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
-        <span class="s2">"description"</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
-    <span class="p">})</span>
+    <span class="n">sections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">{</span>
+            <span class="s2">"label"</span><span class="p">:</span> <span class="n">label</span><span class="p">,</span>
+            <span class="s2">"start"</span><span class="p">:</span> <span class="n">start</span><span class="p">,</span>
+            <span class="s2">"end"</span><span class="p">:</span> <span class="n">end</span><span class="p">,</span>
+            <span class="s2">"color"</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+            <span class="s2">"description"</span><span class="p">:</span> <span class="n">description</span><span class="p">,</span>
+        <span class="p">}</span>
+    <span class="p">)</span>
     <span class="k">if</span> <span class="n">grade</span> <span class="o">!=</span> <span class="s2">"G"</span><span class="p">:</span>
         <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="n">previous_cumulative</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">'Cumulative'</span><span class="p">]</span>
+    <span class="n">previous_cumulative</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">"Cumulative"</span><span class="p">]</span>
 <span class="n">sections</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="s2">"end"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="c1"># sections</span>
 </pre></div>
@@ -9061,12 +9125,11 @@ In future version of our model we should take these factors into account.</li>
     <span class="mi">0</span><span class="p">,</span>
     <span class="mi">1</span><span class="p">,</span>
     <span class="n">sections</span><span class="o">=</span><span class="n">sections</span><span class="p">,</span>
-
     <span class="n">model_name</span><span class="o">=</span><span class="n">cm_target_model_key</span><span class="p">,</span>
     <span class="n">class_pos</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
     <span class="n">include_vars</span><span class="o">=</span><span class="p">[</span><span class="s2">"f1"</span><span class="p">,</span> <span class="s2">"precision"</span><span class="p">,</span> <span class="s2">"recall"</span><span class="p">],</span>
     <span class="n">show_threshold_n</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">log_x</span><span class="o">=</span><span class="kc">True</span>
+    <span class="n">log_x</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="n">summary_desc</span><span class="p">))</span>
 </pre></div>
@@ -9157,10 +9220,19 @@ In future version of our model we should take these factors into account.</li>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">src</span> <span class="kn">import</span> <span class="n">utils</span> <span class="k">as</span> <span class="n">proj_utils</span>
-<span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">proj_utils</span><span class="p">)</span>
-<span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">x_test</span><span class="p">[</span><span class="s2">"pass__grade_merged"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">x_test</span><span class="p">[</span><span class="s1">'pass__grade'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s1">'E'</span><span class="p">,</span> <span class="s1">'F'</span><span class="p">,</span> <span class="s1">'G'</span><span class="p">]),</span> <span class="s1">'E-F-G'</span><span class="p">,</span> <span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">x_test</span><span class="p">[</span><span class="s1">'pass__grade'</span><span class="p">])</span>
 
-<span class="n">results</span> <span class="o">=</span> <span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">x_test</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"pass__grade_merged"</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">proj_utils</span><span class="o">.</span><span class="n">calculate_metrics</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">proj_utils</span><span class="p">)</span>
+<span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">x_test</span><span class="p">[</span><span class="s2">"pass__grade_merged"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">x_test</span><span class="p">[</span><span class="s2">"pass__grade"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">"E"</span><span class="p">,</span> <span class="s2">"F"</span><span class="p">,</span> <span class="s2">"G"</span><span class="p">]),</span>
+    <span class="s2">"E-F-G"</span><span class="p">,</span>
+    <span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">x_test</span><span class="p">[</span><span class="s2">"pass__grade"</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">x_test</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"pass__grade_merged"</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">proj_utils</span><span class="o">.</span><span class="n">calculate_metrics</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="n">display</span><span class="p">(</span><span class="s2">"Returns and Default Rate by Grade in Source Dataset:"</span><span class="p">)</span>
 <span class="n">results</span>
@@ -9260,14 +9332,28 @@ In future version of our model we should take these factors into account.</li>
 <div class="highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">map_grade_prediction_based_on_prop_fact</span><span class="p">(</span><span class="n">sections</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">map_grade_prediction_based_on_prop</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">section</span> <span class="ow">in</span> <span class="n">sections</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">section</span><span class="p">[</span><span class="s1">'start'</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">section</span><span class="p">[</span><span class="s1">'end'</span><span class="p">]:</span>
-                <span class="k">return</span> <span class="n">section</span><span class="p">[</span><span class="s1">'label'</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" Grade"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">section</span><span class="p">[</span><span class="s2">"start"</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">row</span> <span class="o">&lt;</span> <span class="n">section</span><span class="p">[</span><span class="s2">"end"</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="n">section</span><span class="p">[</span><span class="s2">"label"</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">" Grade"</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Return None if no matching range is found</span>
+
     <span class="k">return</span> <span class="n">map_grade_prediction_based_on_prop</span>
-    
-<span class="n">predicted_grades</span> <span class="o">=</span> <span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">probabilities</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">map_grade_prediction_based_on_prop_fact</span><span class="p">(</span><span class="n">sections</span><span class="p">))</span>
-<span class="n">predictions_with_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">x_test</span><span class="p">,</span> <span class="n">predicted_grades</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">'predicted_grades'</span><span class="p">)],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">results</span> <span class="o">=</span> <span class="n">predictions_with_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"predicted_grades"</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">proj_utils</span><span class="o">.</span><span class="n">calculate_metrics</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+
+<span class="n">predicted_grades</span> <span class="o">=</span> <span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">probabilities</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+    <span class="n">map_grade_prediction_based_on_prop_fact</span><span class="p">(</span><span class="n">sections</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">predictions_with_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="n">cm_target_model</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">x_test</span><span class="p">,</span>
+        <span class="n">predicted_grades</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">"predicted_grades"</span><span class="p">),</span>
+    <span class="p">],</span>
+    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">predictions_with_data</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"predicted_grades"</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">proj_utils</span><span class="o">.</span><span class="n">calculate_metrics</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">)</span>
 
 <span class="n">display</span><span class="p">(</span><span class="s2">"Returns and Default Rate Based on Default Probability Model:"</span><span class="p">)</span>
 <span class="n">results</span>

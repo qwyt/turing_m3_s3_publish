@@ -7669,7 +7669,7 @@ a.anchor-link {
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">render_corr_matrix_based_on_type</span><span class="p">(</span><span class="n">source_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">'any'</span><span class="p">))</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">render_corr_matrix_based_on_type</span><span class="p">(</span><span class="n">source_df</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">"any"</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -7758,8 +7758,12 @@ Since the Chi-Squared test outputs an unbound statistic/value which can't be dir
 <span class="n">graph</span><span class="o">.</span><span class="n">draw_distribution_pie_charts</span><span class="p">(</span>
     <span class="n">source_df</span><span class="p">,</span>
     <span class="n">split_var</span><span class="o">=</span><span class="s2">"target__loan_status"</span><span class="p">,</span>
-    <span class="n">include_cols</span><span class="o">=</span><span class="p">[</span><span class="s2">"pass__grade"</span><span class="p">,</span> <span class="s2">"pass__purpose"</span><span class="p">,</span> <span class="s2">"pass__initial_list_status"</span><span class="p">,</span> <span class="s2">"pass__application_type"</span><span class="p">],</span>
-
+    <span class="n">include_cols</span><span class="o">=</span><span class="p">[</span>
+        <span class="s2">"pass__grade"</span><span class="p">,</span>
+        <span class="s2">"pass__purpose"</span><span class="p">,</span>
+        <span class="s2">"pass__initial_list_status"</span><span class="p">,</span>
+        <span class="s2">"pass__application_type"</span><span class="p">,</span>
+    <span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -7810,6 +7814,7 @@ Since the Chi-Squared test outputs an unbound statistic/value which can't be dir
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="s2">"Default Rate and Expected Return by Grade:"</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">src</span> <span class="kn">import</span> <span class="n">utils</span>
+
 <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">utils</span><span class="p">)</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">source_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"pass__grade"</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">calculate_metrics</span><span class="p">)</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
@@ -8251,49 +8256,50 @@ Since the Chi-Squared test outputs an unbound statistic/value which can't be dir
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="c1"># TODO: Add more</span>
-<span class="n">include_cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"term_parser__term"</span><span class="p">,</span>
-                <span class="s2">"target__loan_status"</span><span class="p">,</span>
-                <span class="s2">"pass__loan_amnt"</span><span class="p">,</span>
-                <span class="s2">"pass__int_rate"</span><span class="p">,</span>
-                <span class="c1"># "pass__installment",</span>
-                <span class="s2">"pass__grade"</span><span class="p">,</span>
-                <span class="c1"># 'pass__sub_grade',</span>
-                <span class="s1">'pass__home_ownership'</span><span class="p">,</span>
-                <span class="s1">'pass__annual_inc'</span><span class="p">,</span>
-                <span class="c1"># 'pass__verification_status', </span>
-                <span class="s1">'pass__purpose'</span><span class="p">,</span>
-                <span class="c1"># 'pass__zip_code', </span>
-                <span class="c1"># 'pass__addr_state',</span>
-                <span class="c1"># 'pass__dti',</span>
-                <span class="c1"># 'pass__delinq_2yrs',</span>
-                <span class="c1"># 'pass__fico_range_low',</span>
-                <span class="s1">'pass__fico_range_high'</span><span class="p">,</span>
-                <span class="c1"># 'pass__inq_last_6mths', </span>
-                <span class="c1"># 'pass__mths_since_last_delinq',</span>
-                <span class="c1"># 'pass__mths_since_last_record',</span>
-                <span class="c1"># 'pass__open_acc', </span>
-                <span class="c1"># 'pass__pub_rec', </span>
-                <span class="c1"># 'pass__revol_bal', </span>
-                <span class="c1"># 'pass__revol_util', </span>
-                <span class="c1"># 'pass__total_acc', </span>
-                <span class="c1"># 'pass__initial_list_status',</span>
-                <span class="s1">'pass__last_fico_range_high'</span><span class="p">,</span>
-                <span class="c1"># 'pass__last_fico_range_low', </span>
-                <span class="c1"># 'pass__collections_12_mths_ex_med',</span>
-                <span class="c1"># 'pass__mths_since_last_major_derog', </span>
-                <span class="c1"># 'pass__application_type',</span>
-                <span class="c1"># 'pass__annual_inc_joint',</span>
-                <span class="c1"># 'pass__dti_joint', </span>
-                <span class="c1"># 'pass__verification_status_joint', </span>
-                <span class="c1"># 'pass__inq_fi',</span>
-                <span class="c1"># 'pass__inq_last_12m',</span>
-                <span class="c1"># 'pass__chargeoff_within_12_mths',</span>
-                <span class="c1"># 'pass__mort_acc',</span>
-                <span class="c1"># 'pass__pub_rec_bankruptcies',</span>
-                <span class="c1"># 'pass__tax_liens', </span>
-                <span class="c1"># 'pass__tot_hi_cred_lim', </span>
-                <span class="c1"># 'pass__total_bal_ex_mort'</span>
-                <span class="p">]</span>
+<span class="n">include_cols</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"term_parser__term"</span><span class="p">,</span>
+    <span class="s2">"target__loan_status"</span><span class="p">,</span>
+    <span class="s2">"pass__loan_amnt"</span><span class="p">,</span>
+    <span class="s2">"pass__int_rate"</span><span class="p">,</span>
+    <span class="c1"># "pass__installment",</span>
+    <span class="s2">"pass__grade"</span><span class="p">,</span>
+    <span class="c1"># 'pass__sub_grade',</span>
+    <span class="s2">"pass__home_ownership"</span><span class="p">,</span>
+    <span class="s2">"pass__annual_inc"</span><span class="p">,</span>
+    <span class="c1"># 'pass__verification_status',</span>
+    <span class="s2">"pass__purpose"</span><span class="p">,</span>
+    <span class="c1"># 'pass__zip_code',</span>
+    <span class="c1"># 'pass__addr_state',</span>
+    <span class="c1"># 'pass__dti',</span>
+    <span class="c1"># 'pass__delinq_2yrs',</span>
+    <span class="c1"># 'pass__fico_range_low',</span>
+    <span class="s2">"pass__fico_range_high"</span><span class="p">,</span>
+    <span class="c1"># 'pass__inq_last_6mths',</span>
+    <span class="c1"># 'pass__mths_since_last_delinq',</span>
+    <span class="c1"># 'pass__mths_since_last_record',</span>
+    <span class="c1"># 'pass__open_acc',</span>
+    <span class="c1"># 'pass__pub_rec',</span>
+    <span class="c1"># 'pass__revol_bal',</span>
+    <span class="c1"># 'pass__revol_util',</span>
+    <span class="c1"># 'pass__total_acc',</span>
+    <span class="c1"># 'pass__initial_list_status',</span>
+    <span class="s2">"pass__last_fico_range_high"</span><span class="p">,</span>
+    <span class="c1"># 'pass__last_fico_range_low',</span>
+    <span class="c1"># 'pass__collections_12_mths_ex_med',</span>
+    <span class="c1"># 'pass__mths_since_last_major_derog',</span>
+    <span class="c1"># 'pass__application_type',</span>
+    <span class="c1"># 'pass__annual_inc_joint',</span>
+    <span class="c1"># 'pass__dti_joint',</span>
+    <span class="c1"># 'pass__verification_status_joint',</span>
+    <span class="c1"># 'pass__inq_fi',</span>
+    <span class="c1"># 'pass__inq_last_12m',</span>
+    <span class="c1"># 'pass__chargeoff_within_12_mths',</span>
+    <span class="c1"># 'pass__mort_acc',</span>
+    <span class="c1"># 'pass__pub_rec_bankruptcies',</span>
+    <span class="c1"># 'pass__tax_liens',</span>
+    <span class="c1"># 'pass__tot_hi_cred_lim',</span>
+    <span class="c1"># 'pass__total_bal_ex_mort'</span>
+<span class="p">]</span>
 
 <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">include_cols</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">source_df</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -8430,10 +8436,16 @@ pass__last_fico_range_high: float64
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">stats_utils</span><span class="p">)</span>
 <span class="n">source_df_include_bin</span> <span class="o">=</span> <span class="n">source_df</span><span class="p">[</span><span class="n">include_cols</span><span class="p">]</span>
 <span class="c1"># Drop annual income outliers</span>
-<span class="n">source_df_include_bin</span> <span class="o">=</span> <span class="n">source_df_include_bin</span><span class="p">[</span><span class="n">source_df_include_bin</span><span class="p">[</span><span class="s2">"pass__annual_inc"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">500000</span><span class="p">]</span>
+<span class="n">source_df_include_bin</span> <span class="o">=</span> <span class="n">source_df_include_bin</span><span class="p">[</span>
+    <span class="n">source_df_include_bin</span><span class="p">[</span><span class="s2">"pass__annual_inc"</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">500000</span>
+<span class="p">]</span>
 
-<span class="n">numerical_cols</span> <span class="o">=</span> <span class="n">source_df_include_bin</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'int64'</span><span class="p">,</span> <span class="s1">'float64'</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
-<span class="n">categorical_cols</span> <span class="o">=</span> <span class="n">source_df_include_bin</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span><span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s1">'object'</span><span class="p">,</span> <span class="s1">'category'</span><span class="p">])</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">numerical_cols</span> <span class="o">=</span> <span class="n">source_df_include_bin</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span>
+    <span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">"int64"</span><span class="p">,</span> <span class="s2">"float64"</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">columns</span>
+<span class="n">categorical_cols</span> <span class="o">=</span> <span class="n">source_df_include_bin</span><span class="o">.</span><span class="n">select_dtypes</span><span class="p">(</span>
+    <span class="n">include</span><span class="o">=</span><span class="p">[</span><span class="s2">"object"</span><span class="p">,</span> <span class="s2">"category"</span><span class="p">]</span>
+<span class="p">)</span><span class="o">.</span><span class="n">columns</span>
 
 <span class="n">binned_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
 
@@ -8443,8 +8455,9 @@ pass__last_fico_range_high: float64
         <span class="c1"># Treat as categorical, simply copy it over</span>
         <span class="n">binned_df</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">_binned"</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_df_include_bin</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"category"</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">binned_df</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">_binned"</span><span class="p">]</span> <span class="o">=</span> <span class="n">stats_utils</span><span class="o">.</span><span class="n">bin_and_label</span><span class="p">(</span><span class="n">source_df_include_bin</span><span class="p">[</span><span class="n">col</span><span class="p">],</span>
-                                                               <span class="n">num_bins</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>  <span class="c1"># Adjust num_bins as needed</span>
+        <span class="n">binned_df</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">_binned"</span><span class="p">]</span> <span class="o">=</span> <span class="n">stats_utils</span><span class="o">.</span><span class="n">bin_and_label</span><span class="p">(</span>
+            <span class="n">source_df_include_bin</span><span class="p">[</span><span class="n">col</span><span class="p">],</span> <span class="n">num_bins</span><span class="o">=</span><span class="mi">4</span>
+        <span class="p">)</span>  <span class="c1"># Adjust num_bins as needed</span>
     <span class="n">binned_df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_df_include_bin</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
 <span class="c1"># Add original categorical columns to the new DataFrame</span>
 <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">categorical_cols</span><span class="p">:</span>
@@ -8495,7 +8508,6 @@ dtype: object</pre>
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">target_y</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"pass__int_rate"</span><span class="p">,</span> <span class="s2">"pass__annual_inc"</span><span class="p">,</span> <span class="s2">"pass__fico_range_high"</span><span class="p">]:</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">binned_df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-
         <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">is_numeric_dtype</span><span class="p">(</span><span class="n">binned_df</span><span class="p">[</span><span class="n">c</span><span class="p">]):</span>
             <span class="k">continue</span>
 
@@ -8883,15 +8895,36 @@ Name: pass__fico_range_high, Length: 5361, dtype: float64</pre>
 <span class="n">group_col</span> <span class="o">=</span> <span class="s2">"pass__purpose"</span>
 <span class="n">target_col</span> <span class="o">=</span> <span class="s2">"pass__loan_amnt"</span>
 
-<span class="n">graph</span><span class="o">.</span><span class="n">boxen_plots_by_category</span><span class="p">(</span><span class="n">source_df</span><span class="o">=</span><span class="n">source_df</span><span class="p">,</span> <span class="n">group_col</span><span class="o">=</span><span class="s2">"pass__purpose"</span><span class="p">,</span> <span class="n">target_col</span><span class="o">=</span><span class="s2">"pass__loan_amnt"</span><span class="p">,</span>
-                              <span class="n">title</span><span class="o">=</span><span class="s2">"Loan Amount by Purpose"</span><span class="p">,</span> <span class="n">x_label</span><span class="o">=</span><span class="s2">"Loan Amount"</span><span class="p">)</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">boxen_plots_by_category</span><span class="p">(</span>
+    <span class="n">source_df</span><span class="o">=</span><span class="n">source_df</span><span class="p">,</span>
+    <span class="n">group_col</span><span class="o">=</span><span class="s2">"pass__purpose"</span><span class="p">,</span>
+    <span class="n">target_col</span><span class="o">=</span><span class="s2">"pass__loan_amnt"</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"Loan Amount by Purpose"</span><span class="p">,</span>
+    <span class="n">x_label</span><span class="o">=</span><span class="s2">"Loan Amount"</span><span class="p">,</span>
+<span class="p">)</span>
 
-<span class="n">graph</span><span class="o">.</span><span class="n">boxen_plots_by_category</span><span class="p">(</span><span class="n">source_df</span><span class="o">=</span><span class="n">source_df</span><span class="p">,</span> <span class="n">group_col</span><span class="o">=</span><span class="s2">"pass__grade"</span><span class="p">,</span> <span class="n">target_col</span><span class="o">=</span><span class="s2">"pass__loan_amnt"</span><span class="p">,</span>
-                              <span class="n">title</span><span class="o">=</span><span class="s2">"Loan Amount by Grade"</span><span class="p">,</span> <span class="n">x_label</span><span class="o">=</span><span class="s2">"Loan Amount"</span><span class="p">)</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">boxen_plots_by_category</span><span class="p">(</span><span class="n">source_df</span><span class="o">=</span><span class="n">source_df</span><span class="p">,</span> <span class="n">group_col</span><span class="o">=</span><span class="s2">"pass__grade"</span><span class="p">,</span> <span class="n">target_col</span><span class="o">=</span><span class="s2">"pass__fico_range_high"</span><span class="p">,</span>
-                              <span class="n">title</span><span class="o">=</span><span class="s2">"FICO Score by Grade"</span><span class="p">,</span> <span class="n">x_label</span><span class="o">=</span><span class="s2">"Loan Amount"</span><span class="p">)</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">boxen_plots_by_category</span><span class="p">(</span><span class="n">source_df</span><span class="o">=</span><span class="n">source_df</span><span class="p">,</span> <span class="n">group_col</span><span class="o">=</span><span class="s2">"pass__grade"</span><span class="p">,</span> <span class="n">target_col</span><span class="o">=</span><span class="s2">"pass__annual_inc"</span><span class="p">,</span>
-                              <span class="n">title</span><span class="o">=</span><span class="s2">"Household Income by Grade"</span><span class="p">,</span> <span class="n">x_label</span><span class="o">=</span><span class="s2">"Household Income"</span><span class="p">,</span> <span class="n">x_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">400000</span><span class="p">))</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">boxen_plots_by_category</span><span class="p">(</span>
+    <span class="n">source_df</span><span class="o">=</span><span class="n">source_df</span><span class="p">,</span>
+    <span class="n">group_col</span><span class="o">=</span><span class="s2">"pass__grade"</span><span class="p">,</span>
+    <span class="n">target_col</span><span class="o">=</span><span class="s2">"pass__loan_amnt"</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"Loan Amount by Grade"</span><span class="p">,</span>
+    <span class="n">x_label</span><span class="o">=</span><span class="s2">"Loan Amount"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">boxen_plots_by_category</span><span class="p">(</span>
+    <span class="n">source_df</span><span class="o">=</span><span class="n">source_df</span><span class="p">,</span>
+    <span class="n">group_col</span><span class="o">=</span><span class="s2">"pass__grade"</span><span class="p">,</span>
+    <span class="n">target_col</span><span class="o">=</span><span class="s2">"pass__fico_range_high"</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"FICO Score by Grade"</span><span class="p">,</span>
+    <span class="n">x_label</span><span class="o">=</span><span class="s2">"Loan Amount"</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">boxen_plots_by_category</span><span class="p">(</span>
+    <span class="n">source_df</span><span class="o">=</span><span class="n">source_df</span><span class="p">,</span>
+    <span class="n">group_col</span><span class="o">=</span><span class="s2">"pass__grade"</span><span class="p">,</span>
+    <span class="n">target_col</span><span class="o">=</span><span class="s2">"pass__annual_inc"</span><span class="p">,</span>
+    <span class="n">title</span><span class="o">=</span><span class="s2">"Household Income by Grade"</span><span class="p">,</span>
+    <span class="n">x_label</span><span class="o">=</span><span class="s2">"Household Income"</span><span class="p">,</span>
+    <span class="n">x_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">400000</span><span class="p">),</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>

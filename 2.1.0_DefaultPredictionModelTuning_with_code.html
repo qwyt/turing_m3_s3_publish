@@ -7614,7 +7614,6 @@ a.anchor-link {
     <span class="n">feature_engineering</span><span class="o">.</span><span class="n">LoanGradeTransformer</span><span class="p">,</span>
     <span class="n">feature_engineering</span><span class="o">.</span><span class="n">JointApplicationTransformer</span><span class="p">,</span>
     <span class="n">feature_engineering</span><span class="o">.</span><span class="n">LoadGradeRiskTransformer</span><span class="p">,</span>
-
     <span class="n">feature_engineering</span><span class="o">.</span><span class="n">FICOScoreTransformer</span><span class="p">,</span>
     <span class="n">feature_engineering</span><span class="o">.</span><span class="n">DelinquencyTransformer</span><span class="p">,</span>
     <span class="n">feature_engineering</span><span class="o">.</span><span class="n">InstallementIncomeRatio</span><span class="p">,</span>
@@ -7629,23 +7628,22 @@ a.anchor-link {
     <span class="c1"># "XGBoostTuneLogLoss": ml_config_core.ModelPipelineConfig(</span>
     <span class="c1">#     model_config=ml_config_core.XGBoostTuneLogLoss(),</span>
     <span class="c1">#     transformer_config=ml_config_core.PipelineTransformerConfig(transformers)),</span>
-    <span class="c1"># </span>
+    <span class="c1">#</span>
     <span class="s2">"XGBoostTuneF1"</span><span class="p">:</span> <span class="n">ml_config_core</span><span class="o">.</span><span class="n">ModelPipelineConfig</span><span class="p">(</span>
         <span class="n">model_config</span><span class="o">=</span><span class="n">ml_config_core</span><span class="o">.</span><span class="n">XGBoostTuneF1</span><span class="p">(),</span>
-        <span class="n">transformer_config</span><span class="o">=</span><span class="n">ml_config_core</span><span class="o">.</span><span class="n">PipelineTransformerConfig</span><span class="p">(</span><span class="n">transformers</span><span class="p">)</span>
+        <span class="n">transformer_config</span><span class="o">=</span><span class="n">ml_config_core</span><span class="o">.</span><span class="n">PipelineTransformerConfig</span><span class="p">(</span><span class="n">transformers</span><span class="p">),</span>
     <span class="p">),</span>
     <span class="s2">"XGBoostTunePRAUC"</span><span class="p">:</span> <span class="n">ml_config_core</span><span class="o">.</span><span class="n">ModelPipelineConfig</span><span class="p">(</span>
         <span class="n">model_config</span><span class="o">=</span><span class="n">ml_config_core</span><span class="o">.</span><span class="n">XGBoostTunePRAUC</span><span class="p">(),</span>
-        <span class="n">transformer_config</span><span class="o">=</span><span class="n">ml_config_core</span><span class="o">.</span><span class="n">PipelineTransformerConfig</span><span class="p">(</span><span class="n">transformers</span><span class="p">)</span>
+        <span class="n">transformer_config</span><span class="o">=</span><span class="n">ml_config_core</span><span class="o">.</span><span class="n">PipelineTransformerConfig</span><span class="p">(</span><span class="n">transformers</span><span class="p">),</span>
     <span class="p">),</span>
     <span class="c1"># We tried using CatBoost because XGBoost is not fully compatible with the SHAP plots library</span>
     <span class="c1"># However CatBoost gennerally is much slower to train and performs slightly worse performance (despite trying various difference configurations and attempts to speed it up)</span>
-    <span class="c1"># We might want to investigate this in the future </span>
+    <span class="c1"># We might want to investigate this in the future</span>
     <span class="c1"># "CatBoostF1": ml_config_core.ModelPipelineConfig(</span>
     <span class="c1">#     model_config=ml_config_core.CatBoostBaseConfigTuneF1(),</span>
     <span class="c1">#     transformer_config=ml_config_core.PipelineTransformerConfig(transformers)</span>
     <span class="c1"># ),</span>
-
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -32374,7 +32372,11 @@ XGBoostTunePRAUC Tuning, total time:614.9
 <div class="highlight hl-ipython2"><pre><span></span><span class="k">for</span> <span class="n">model_key</span><span class="p">,</span> <span class="n">model_data</span> <span class="ow">in</span> <span class="n">tuning_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">transformer_tun_all_civ_results</span> <span class="o">=</span> <span class="n">model_data</span><span class="o">.</span><span class="n">transformer_tun_all_civ_results</span>
     <span class="n">display</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_key</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">transformer_tun_all_civ_results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s2">"mean_test_score"</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">display</span><span class="p">(</span>
+        <span class="n">transformer_tun_all_civ_results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span>
+            <span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s2">"mean_test_score"</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -32772,8 +32774,13 @@ XGBoostTunePRAUC Tuning, total time:614.9
 
 
 <span class="k">for</span> <span class="n">model_key</span><span class="p">,</span> <span class="n">model_data</span> <span class="ow">in</span> <span class="n">tuning_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-    <span class="n">calc_param_impact</span><span class="p">(</span><span class="n">model_data</span><span class="o">.</span><span class="n">transformer_tun_all_civ_results</span><span class="p">,</span> <span class="n">ml_config_core</span><span class="o">.</span><span class="n">ImpactTarget</span><span class="o">.</span><span class="n">Transformers</span><span class="p">)</span>
-    <span class="n">calc_param_impact</span><span class="p">(</span><span class="n">model_data</span><span class="o">.</span><span class="n">hyper_param_all_cv_results</span><span class="p">,</span> <span class="n">ml_config_core</span><span class="o">.</span><span class="n">ImpactTarget</span><span class="o">.</span><span class="n">Model</span><span class="p">)</span>
+    <span class="n">calc_param_impact</span><span class="p">(</span>
+        <span class="n">model_data</span><span class="o">.</span><span class="n">transformer_tun_all_civ_results</span><span class="p">,</span>
+        <span class="n">ml_config_core</span><span class="o">.</span><span class="n">ImpactTarget</span><span class="o">.</span><span class="n">Transformers</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">calc_param_impact</span><span class="p">(</span>
+        <span class="n">model_data</span><span class="o">.</span><span class="n">hyper_param_all_cv_results</span><span class="p">,</span> <span class="n">ml_config_core</span><span class="o">.</span><span class="n">ImpactTarget</span><span class="o">.</span><span class="n">Model</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>

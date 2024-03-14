@@ -7562,9 +7562,13 @@ a.anchor-link {
     <span class="n">sample_size</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">SampleSize</span><span class="o">.</span><span class="n">Tiny</span><span class="p">,</span>
     <span class="n">target_col</span><span class="o">=</span><span class="s2">"grade"</span><span class="p">,</span>
     <span class="n">target_type</span><span class="o">=</span><span class="n">TargetType</span><span class="o">.</span><span class="n">MulticlassOrdinal</span><span class="p">,</span>
-    <span class="n">drop_cols</span><span class="o">=</span><span class="p">[</span><span class="s2">"loan_status"</span><span class="p">,</span> <span class="s2">"sub_grade"</span><span class="p">,</span> <span class="s2">"int_rate"</span><span class="p">]</span>
+    <span class="n">drop_cols</span><span class="o">=</span><span class="p">[</span><span class="s2">"loan_status"</span><span class="p">,</span> <span class="s2">"sub_grade"</span><span class="p">,</span> <span class="s2">"int_rate"</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">transformed_data</span><span class="p">[</span><span class="s1">'target__grade'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">transformed_data</span><span class="p">[</span><span class="s1">'target__grade'</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">]),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">transformed_data</span><span class="p">[</span><span class="s1">'target__grade'</span><span class="p">])</span>
+<span class="n">transformed_data</span><span class="p">[</span><span class="s2">"target__grade"</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+    <span class="n">transformed_data</span><span class="p">[</span><span class="s2">"target__grade"</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">]),</span>
+    <span class="mi">4</span><span class="p">,</span>
+    <span class="n">transformed_data</span><span class="p">[</span><span class="s2">"target__grade"</span><span class="p">],</span>
+<span class="p">)</span>
 
 <span class="k">if</span> <span class="n">VERBOSE</span><span class="p">:</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Total samples loaded : </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">transformed_data</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
@@ -7607,7 +7611,9 @@ a.anchor-link {
 <span class="k">for</span> <span class="n">model_key</span> <span class="ow">in</span> <span class="n">INCLUDE_MODELS</span><span class="p">:</span>
     <span class="n">tuning_result</span> <span class="o">=</span> <span class="n">TuningResult</span><span class="o">.</span><span class="n">load_serialized_tuning_result</span><span class="p">(</span><span class="n">model_key</span><span class="p">)</span>
 
-    <span class="n">cv_results</span> <span class="o">=</span> <span class="n">build_production_model_for_tuning_result</span><span class="p">(</span><span class="n">tuning_result</span><span class="o">=</span><span class="n">tuning_result</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">transformed_data</span><span class="p">)</span>
+    <span class="n">cv_results</span> <span class="o">=</span> <span class="n">build_production_model_for_tuning_result</span><span class="p">(</span>
+        <span class="n">tuning_result</span><span class="o">=</span><span class="n">tuning_result</span><span class="p">,</span> <span class="n">df</span><span class="o">=</span><span class="n">transformed_data</span>
+    <span class="p">)</span>
     <span class="n">cv_results_all_models</span><span class="p">[</span><span class="n">model_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">cv_results</span>
 
     <span class="n">ModelTrainingResult</span><span class="o">.</span><span class="n">serialize_model</span><span class="p">(</span><span class="n">cv_results</span><span class="p">,</span> <span class="n">model_key</span><span class="p">)</span>
@@ -7669,7 +7675,9 @@ XGBoostF1Multiclass: 7.9 seconds
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="k">if</span> <span class="n">VERBOSE</span><span class="p">:</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">cv_results_all_models</span><span class="p">[</span><span class="s1">'XGBoostOrdinalRegressor_Default'</span><span class="p">]</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">test_model</span><span class="p">)</span>
+    <span class="n">display</span><span class="p">(</span>
+        <span class="n">cv_results_all_models</span><span class="p">[</span><span class="s2">"XGBoostOrdinalRegressor_Default"</span><span class="p">]</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">test_model</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7743,35 +7751,34 @@ XGBoostF1Multiclass: 7.9 seconds
 <div class="highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">plot_regressor_actual_vs_predicted</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">TestTrainData</span><span class="p">,</span> <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Renders a scatter plot of actual vs. predicted values with improved styles and annotations.</span>
-<span class="sd">    </span>
+
 <span class="sd">    Parameters:</span>
 <span class="sd">    - data: TestTrainData instance containing y_test and predictions.</span>
 <span class="sd">    """</span>
-    
+
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="n">predictions_series</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">predictions</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">predictions_series</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">predictions</span>
-    
-    <span class="n">plot_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-        <span class="s1">'Actual'</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">y_test</span><span class="p">,</span>
-        <span class="s1">'Predicted'</span><span class="p">:</span> <span class="n">predictions_series</span>
-    <span class="p">})</span>
+
+    <span class="n">plot_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">"Actual"</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">y_test</span><span class="p">,</span> <span class="s2">"Predicted"</span><span class="p">:</span> <span class="n">predictions_series</span><span class="p">})</span>
 
     <span class="c1"># Select a subset if the dataset is very large</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">plot_data</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10000</span><span class="p">:</span>
         <span class="n">plot_data</span> <span class="o">=</span> <span class="n">plot_data</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">plot_data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">'Actual'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">'Predicted'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-    
-    <span class="n">ax_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">plot_data</span><span class="p">[</span><span class="s1">'Actual'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">plot_data</span><span class="p">[</span><span class="s1">'Predicted'</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
-    <span class="n">ax_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">plot_data</span><span class="p">[</span><span class="s1">'Actual'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">plot_data</span><span class="p">[</span><span class="s1">'Predicted'</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">ax_min</span><span class="p">,</span> <span class="n">ax_max</span><span class="p">],</span> <span class="p">[</span><span class="n">ax_min</span><span class="p">,</span> <span class="n">ax_max</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">'red'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">'--'</span><span class="p">)</span>
-    
-    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s1"> Actual vs. Predicted Values'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">'Actual Value'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">'Predicted Value'</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span>
+        <span class="n">data</span><span class="o">=</span><span class="n">plot_data</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s2">"Actual"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s2">"Predicted"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="kc">None</span>
+    <span class="p">)</span>
+
+    <span class="n">ax_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">plot_data</span><span class="p">[</span><span class="s2">"Actual"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">plot_data</span><span class="p">[</span><span class="s2">"Predicted"</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">())</span>
+    <span class="n">ax_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">plot_data</span><span class="p">[</span><span class="s2">"Actual"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span> <span class="n">plot_data</span><span class="p">[</span><span class="s2">"Predicted"</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">ax_min</span><span class="p">,</span> <span class="n">ax_max</span><span class="p">],</span> <span class="p">[</span><span class="n">ax_min</span><span class="p">,</span> <span class="n">ax_max</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">"--"</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2"> Actual vs. Predicted Values"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">"Actual Value"</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">"Predicted Value"</span><span class="p">)</span>
     <span class="c1"># plt.text(ax_min, ax_max, 'Diagonal line: Perfect Predictions', color='red', ha='left', va='bottom')</span>
 
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
@@ -7789,7 +7796,7 @@ XGBoostF1Multiclass: 7.9 seconds
 <div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">model_data</span> <span class="ow">in</span>  <span class="n">cv_results_all_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">model_data</span> <span class="ow">in</span> <span class="n">cv_results_all_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="k">if</span> <span class="s2">"Regressor"</span> <span class="ow">in</span> <span class="n">k</span><span class="p">:</span>
         <span class="n">test_data</span> <span class="o">=</span> <span class="n">model_data</span><span class="o">.</span><span class="n">test_data</span>
         <span class="n">plot_regressor_actual_vs_predicted</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
@@ -7818,14 +7825,16 @@ XGBoostF1Multiclass: 7.9 seconds
 <div class="jp-InputPrompt jp-InputArea-prompt">In [15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">model_data</span> <span class="ow">in</span>  <span class="n">cv_results_all_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">model_data</span> <span class="ow">in</span> <span class="n">cv_results_all_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
 
     <span class="n">test_data</span> <span class="o">=</span> <span class="n">model_data</span><span class="o">.</span><span class="n">test_data</span>
-    <span class="n">joint_plot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">test_data</span><span class="o">.</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">test_data</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hex"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#4CB391"</span><span class="p">)</span>
-    <span class="n">joint_plot</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.03</span><span class="p">)</span>
-    <span class="n">joint_plot</span><span class="o">.</span><span class="n">set_axis_labels</span><span class="p">(</span><span class="s1">'Actual Grade'</span><span class="p">,</span> <span class="s1">'Predicted'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-    
+    <span class="n">joint_plot</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">jointplot</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">test_data</span><span class="o">.</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">test_data</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s2">"hex"</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">"#4CB391"</span>
+    <span class="p">)</span>
+    <span class="n">joint_plot</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">1.03</span><span class="p">)</span>
+    <span class="n">joint_plot</span><span class="o">.</span><span class="n">set_axis_labels</span><span class="p">(</span><span class="s2">"Actual Grade"</span><span class="p">,</span> <span class="s2">"Predicted"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -7882,12 +7891,14 @@ XGBoostF1Multiclass: 7.9 seconds
 <div class="jp-InputPrompt jp-InputArea-prompt">In [16]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">model_data</span> <span class="ow">in</span>  <span class="n">cv_results_all_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">model_data</span> <span class="ow">in</span> <span class="n">cv_results_all_models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">test_data</span> <span class="o">=</span> <span class="n">model_data</span><span class="o">.</span><span class="n">test_data</span>
 
-    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span> 
-    
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">test_data</span><span class="o">.</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">test_data</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">inner</span><span class="o">=</span><span class="s2">"quart"</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">violinplot</span><span class="p">(</span>
+        <span class="n">x</span><span class="o">=</span><span class="n">test_data</span><span class="o">.</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">test_data</span><span class="o">.</span><span class="n">predictions</span><span class="p">,</span> <span class="n">inner</span><span class="o">=</span><span class="s2">"quart"</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
     <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -7926,7 +7937,9 @@ XGBoostF1Multiclass: 7.9 seconds
 <div class="jp-InputPrompt jp-InputArea-prompt">In [17]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython2"><pre><span></span><span class="n">predictions_rounded</span> <span class="o">=</span> <span class="n">cv_results_all_models</span><span class="p">[</span><span class="s1">'XGBoostOrdinalRegressor_Default'</span><span class="p">]</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">predictions</span>
+<div class="highlight hl-ipython2"><pre><span></span><span class="n">predictions_rounded</span> <span class="o">=</span> <span class="n">cv_results_all_models</span><span class="p">[</span>
+    <span class="s2">"XGBoostOrdinalRegressor_Default"</span>
+<span class="p">]</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">predictions</span>
 </pre></div>
 </div>
 </div>
@@ -7975,7 +7988,7 @@ XGBoostF1Multiclass: 7.9 seconds
         <span class="n">cv_results_all_models</span><span class="p">[</span><span class="n">model_key</span><span class="p">]</span><span class="o">.</span><span class="n">test_data</span><span class="p">,</span>
         <span class="n">title</span><span class="o">=</span><span class="n">model_key</span><span class="p">,</span>
         <span class="n">ax</span><span class="o">=</span><span class="n">axes_flat</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-        <span class="n">regressor_input</span><span class="o">=</span><span class="kc">True</span>
+        <span class="n">regressor_input</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
 <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">axes_flat</span><span class="p">)):</span>
@@ -8018,7 +8031,9 @@ XGBoostF1Multiclass: 7.9 seconds
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">stats_utils</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">model_key</span> <span class="ow">in</span> <span class="n">cv_results_all_models</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">cv_results_all_models</span><span class="p">[</span><span class="n">model_key</span><span class="p">]</span>
-    <span class="n">feature_importances</span> <span class="o">=</span> <span class="n">stats_utils</span><span class="o">.</span><span class="n">get_model_feature_importances</span><span class="p">(</span><span class="n">model_config</span><span class="p">,</span> <span class="n">transformed_data</span><span class="p">)</span>
+    <span class="n">feature_importances</span> <span class="o">=</span> <span class="n">stats_utils</span><span class="o">.</span><span class="n">get_model_feature_importances</span><span class="p">(</span>
+        <span class="n">model_config</span><span class="p">,</span> <span class="n">transformed_data</span>
+    <span class="p">)</span>
 
     <span class="n">graph</span><span class="o">.</span><span class="n">render_feature_importances_chart</span><span class="p">(</span>
         <span class="n">feature_importances</span><span class="o">=</span><span class="n">feature_importances</span><span class="p">,</span>
