@@ -7477,9 +7477,21 @@ a.anchor-link {
     <style>
     body { background-color: #F0F0F0 !important; }
     [data-mime-type='application/vnd.jupyter.stderr'] { display: none; }
+    main {
+        display: flex;
+        flex-direction: column; /* Stack children vertically */
+        align-items: center; /* Center children horizontally */
+    }
     div.jp-RenderedImage img {
-        max-width: 920px; /* Set maximum width */
+        max-width: 960px; /* Set maximum width */
         height: auto; /* Maintain aspect ratio */
+    }
+    .jp-MarkdownCell {
+    }
+    .jp-Cell{
+        max-width: 1200px !important;
+        height: auto;
+
     }
     </style>
     </head>
@@ -7658,13 +7670,13 @@ Name: target__grade, dtype: int64</pre>
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">transformers</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># Measured impact is listed in comments</span>
-    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">LoanGradeTransformer</span><span class="p">,</span> <span class="c1">#</span>
-    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">JointApplicationTransformer</span><span class="p">,</span><span class="c1">#</span>
-    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">FICOScoreTransformer</span><span class="p">,</span> <span class="c1">#</span>
-    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">DelinquencyTransformer</span><span class="p">,</span><span class="c1">#</span>
-    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">InstallementIncomeRatio</span><span class="p">,</span><span class="c1">#</span>
-    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">NewDtiTransformer</span><span class="p">,</span><span class="c1">#</span>
-    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">DummyDropAllButFICOHigh</span><span class="p">,</span><span class="c1">#</span>
+    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">LoanGradeTransformer</span><span class="p">,</span>  <span class="c1">#</span>
+    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">JointApplicationTransformer</span><span class="p">,</span>  <span class="c1">#</span>
+    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">FICOScoreTransformer</span><span class="p">,</span>  <span class="c1">#</span>
+    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">DelinquencyTransformer</span><span class="p">,</span>  <span class="c1">#</span>
+    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">InstallementIncomeRatio</span><span class="p">,</span>  <span class="c1">#</span>
+    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">NewDtiTransformer</span><span class="p">,</span>  <span class="c1">#</span>
+    <span class="n">feature_engineering</span><span class="o">.</span><span class="n">DummyDropAllButFICOHigh</span><span class="p">,</span>  <span class="c1">#</span>
 <span class="p">]</span>
 
 <span class="n">configs</span><span class="p">:</span> <span class="n">ModelConfigsCollection</span> <span class="o">=</span> <span class="p">{</span>

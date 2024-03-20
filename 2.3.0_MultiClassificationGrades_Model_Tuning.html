@@ -7477,9 +7477,21 @@ a.anchor-link {
     <style>
     body { background-color: #F0F0F0 !important; }
     [data-mime-type='application/vnd.jupyter.stderr'] { display: none; }
+    main {
+        display: flex;
+        flex-direction: column; /* Stack children vertically */
+        align-items: center; /* Center children horizontally */
+    }
     div.jp-RenderedImage img {
-        max-width: 920px; /* Set maximum width */
+        max-width: 960px; /* Set maximum width */
         height: auto; /* Maintain aspect ratio */
+    }
+    .jp-MarkdownCell {
+    }
+    .jp-Cell{
+        max-width: 1200px !important;
+        height: auto;
+
     }
     </style>
     </head>
