@@ -7504,7 +7504,16 @@ a.anchor-link {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h1 id="1.-Introduction-and-Goals">1. Introduction and Goals<a class="anchor-link" href="#1.-Introduction-and-Goals">¶</a></h1><p>This project analyses the LendingClub's loan dataset. The dataset includes loan application data, the information on granted loans and their status.</p>
-<p>The goal of this project is build several ML models which can be used to predict:</p>
+<h4 id="Goals">Goals<a class="anchor-link" href="#Goals">¶</a></h4><p>Build models for:</p>
+<ol>
+<li>Classifying <code>Accepted</code> and <code>Rejected</code> loans</li>
+<li>Estimating loan default risk (<code>loan_status</code>)<ul>
+<li>Can be used by potential investors into the platform to select a sample of loans to invest in (instead of provided grades/subgrade/etc)</li>
+</ul>
+</li>
+<li>Classifying loan <code>grade</code> and <code>sub_grade</code></li>
+</ol>
+<h1 id="Classifying-loan-grade-and-sub_grade">Classifying loan grade and sub_grade<a class="anchor-link" href="#Classifying-loan-grade-and-sub_grade">¶</a></h1><p>The goal of this project is build several ML models which can be used to predict:</p>
 <ul>
 <li>Binary  <code>loan_status</code> prediction model. We have used <code>XGBoost</code> and <code>CatBoost</code> to build a model which can be used to predict how likely an applicant is to default on a loan based on their information and the loan size, type and other specifics. This model can be used to decide whether the application should be approved or used by a third party investor to estimate risk. The goal of this model is to maximize the quality of probability prediction rather than the classification accuracy itself. In addition to estimating the default likelihood we'll also use this model to estimate:<ul>
 <li>Loan grades (A,B,C etc.) based on probability threshold, this does not directly attempt to predict the grades defined in the dataset but rather can be used as an alternative method to classify loan risk</li>
