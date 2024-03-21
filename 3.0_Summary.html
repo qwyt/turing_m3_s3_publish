@@ -7514,44 +7514,37 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Limitations-and-Issues">Limitations and Issues<a class="anchor-link" href="#Limitations-and-Issues">¶</a></h3><ul>
-<li>Model sizes, some of the models are very large, we should look into:<ul>
+<h3 id="Limitations-and-Future-Improvements">Limitations and Future Improvements<a class="anchor-link" href="#Limitations-and-Future-Improvements">¶</a></h3><ul>
+<li><p>We've applied relatively few feature engineering techniques in our project. While the rejected loans dataset is fairly simple trying to do that when using a complex model like XGBoost might not be necessary however the features in the accepted loans dataset are significantly more complex.</p>
+<ul>
+<li><p>In addition to our feature transformers and using model importancess/SHAP plots  to eliminate features we should use additional techniques (we've used PSI to eliminate unstable feature however that did not improve the performance so this might not be necessary with the dataset we have)</p>
+</li>
+<li><p>Clustering, might help us to identify inherent groupings or segments in the data which the model might be missing on its own. Clusters could can be used as new features, potentially capturing non-linear relationships that are not explicitly modeled in the original feature set.</p>
+</li>
+<li><p>Featuretools and other automated feature engineering packages.</p>
+</li>
+</ul>
+</li>
+<li><p>Tuning process can be improved by using bayesian tuning to speed it up (we've used Optuna initially)</p>
+</li>
+<li><p>Model sizes, some of the models are very large, we should look into:</p>
+<ul>
 <li>simplifying the XGBoost models themselves (by including less features and tweaking other parameters as long as that does not decrease performance)</li>
 <li>using more efficient structures for serialization, we should consider optimizing the dataclasses used for storing the model and related metadata and consider using a prebuilt solution or a library instead of building our own custom methods.</li>
 </ul>
 </li>
 </ul>
+<h4 id="Outcomes">Outcomes<a class="anchor-link" href="#Outcomes">¶</a></h4><p>Overal the performance of the rejected/accepted and loan default risk classifier model is acceptable however the multi classification model for predicting grades under-perform to a significant degree (however  there unlikely to be any practical application for such models)</p>
 </div>
 </div>
 </div>
 </div>
-<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=b200cf94f9dbb0aa">
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell" id="cell-id=783e7976549b93e9">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h4 id="Future-Improvements">Future Improvements<a class="anchor-link" href="#Future-Improvements">¶</a></h4><ul>
-<li><p>Improve transformer and hyperparameter tuning</p>
-<ul>
-<li>Use nested loop with grid search for transformer and Baysesian search for hypertuning (like optuna)</li>
-</ul>
-</li>
-<li><p>Additional financial analysis</p>
-</li>
-<li><p>Improved transformer algorithms. Used an automated approach like:</p>
-</li>
-<li><p>(<a href="https://pypi.org/project/autofeat/">https://pypi.org/project/autofeat/</a>)</p>
-</li>
-<li><p>Featuretools</p>
-<ul>
-<li>etc.<ul>
-<li>Try clusterbing for XGBoost and LGBM</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
 </div>
 </div>
 </div>

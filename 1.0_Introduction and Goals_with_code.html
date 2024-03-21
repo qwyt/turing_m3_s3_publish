@@ -7503,7 +7503,7 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h1 id="1.-Introduction-and-Goals">1. Introduction and Goals<a class="anchor-link" href="#1.-Introduction-and-Goals">¶</a></h1><p>This project analyses the LendingClub's loan dataset. The dataset includes loan application data, the information on granted loans and their status. In total {ADD SIZE} loans are included in the dataset.</p>
+<h1 id="1.-Introduction-and-Goals">1. Introduction and Goals<a class="anchor-link" href="#1.-Introduction-and-Goals">¶</a></h1><p>This project analyses the LendingClub's loan dataset. The dataset includes loan application data, the information on granted loans and their status.</p>
 <p>The goal of this project is build several ML models which can be used to predict:</p>
 <ul>
 <li>Binary  <code>loan_status</code> prediction model. We have used <code>XGBoost</code> and <code>CatBoost</code> to build a model which can be used to predict how likely an applicant is to default on a loan based on their information and the loan size, type and other specifics. This model can be used to decide whether the application should be approved or used by a third party investor to estimate risk. The goal of this model is to maximize the quality of probability prediction rather than the classification accuracy itself. In addition to estimating the default likelihood we'll also use this model to estimate:<ul>
@@ -7513,11 +7513,15 @@ a.anchor-link {
 </li>
 <li><code>loan_grade</code> prediction models, we'll evaluate and compare two different approaches<ul>
 <li>Multi classification model using <code>XGBoost</code> and <code>CatBoost</code></li>
-<li>Regression model that attempts to predict grade converted to a normalized numerical variable (predictions are rounded). While using a regression model for a classification problem is not ideal because it ignores the fact that spacing between different classes of ordinal features might differ (e.g. we don't know if the distance between grade A and B is the same as between B and C etc.) {TODO finish}</li>
+<li>Regression model that attempts to predict grade converted to a normalized numerical variable (predictions are rounded). While using a regression model for a classification problem is not ideal because it ignores the fact that spacing between different classes of ordinal features might differ (e.g. we don't know if the distance between grade A and B is the same as between B and C etc.)</li>
 </ul>
 </li>
 </ul>
-<h2 id="Data-Selection:">Data Selection:<a class="anchor-link" href="#Data-Selection:">¶</a></h2><p>To limit the extent of this project we have only included loans which were fully paid back or have been default on by the lender in our analysis based on the <code>loan_status</code> column</p>
+<h3 id="Practical-Applications">Practical Applications<a class="anchor-link" href="#Practical-Applications">¶</a></h3><p>The default risk model can be used by potential investors to figure out which loans offered by the Lenders Club to invest in.</p>
+<ul>
+<li>e.g. a non experienced individual would likely base their decision by just looking into the grade, interest rate and maybe a few other variables and make their decision based on this.</li>
+<li>Our default risk model allows them to build an investment strategy based on their risk profile. Basically our goal is to provide a self-contained model that can be used (instead of just investing based on the grade/interest rate) to maximize returns based on acceptable risk.</li>
+</ul>
 </div>
 </div>
 </div>
