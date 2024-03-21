@@ -7933,10 +7933,8 @@ XGBoostTunePRAUC: 1.1 seconds</p>
 <span class="n">X_test</span> <span class="o">=</span> <span class="n">X_test</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"target__loan_status"</span><span class="p">])</span>
 
 <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">model_key</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">'XGBoostTunePRAUC'</span><span class="p">]:</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">cv_results_all_models</span><span class="p">[</span>
-        <span class="n">model_key</span>
-    <span class="p">]</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">test_model</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">"model"</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">model_key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"XGBoostTunePRAUC"</span><span class="p">]:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">cv_results_all_models</span><span class="p">[</span><span class="n">model_key</span><span class="p">]</span><span class="o">.</span><span class="n">test_data</span><span class="o">.</span><span class="n">test_model</span><span class="o">.</span><span class="n">named_steps</span><span class="p">[</span><span class="s2">"model"</span><span class="p">]</span>
 
     <span class="n">booster_model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_booster</span><span class="p">()</span>
     <span class="n">shap_values</span> <span class="o">=</span> <span class="n">booster_model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
@@ -8617,7 +8615,9 @@ In future version of our model we should take these factors into account.</li>
 <span class="p">)</span>
 
 <span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s2">"Cumulative"</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s2">"Proportion"</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
-<span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s1">'Cumulative'</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s1">'Cumulative'</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s2">"Cumulative"</span><span class="p">]</span> <span class="o">=</span> <span class="n">source_df_grades_summary</span><span class="p">[</span><span class="s2">"Cumulative"</span><span class="p">]</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+    <span class="n">upper</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span>
 
 <span class="n">sections</span> <span class="o">=</span> <span class="p">[]</span>
 

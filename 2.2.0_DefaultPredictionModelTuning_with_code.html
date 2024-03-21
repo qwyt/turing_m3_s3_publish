@@ -8309,11 +8309,15 @@ Cell <span class="ansi-green-fg">In[5], line 1</span>
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="k">for</span> <span class="n">model_key</span><span class="p">,</span> <span class="n">model_data</span> <span class="ow">in</span> <span class="n">tuning_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">test_model</span> <span class="o">=</span> <span class="n">tuning_results</span><span class="p">[</span><span class="n">model_key</span><span class="p">]</span>
-    
-    <span class="n">df_hypertune_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">test_model</span><span class="o">.</span><span class="n">all_scores</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">"columns"</span><span class="p">)</span>
+
+    <span class="n">df_hypertune_results</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span>
+        <span class="n">test_model</span><span class="o">.</span><span class="n">all_scores</span><span class="p">,</span> <span class="n">orient</span><span class="o">=</span><span class="s2">"columns"</span>
+    <span class="p">)</span>
     <span class="n">df_hypertune_results</span> <span class="o">=</span> <span class="n">df_hypertune_results</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"params"</span><span class="p">])</span>
     <span class="n">display</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_key</span><span class="si">}</span><span class="s2">:"</span><span class="p">)</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">df_hypertune_results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">"rank_test_score"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">display</span><span class="p">(</span>
+        <span class="n">df_hypertune_results</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s2">"rank_test_score"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
