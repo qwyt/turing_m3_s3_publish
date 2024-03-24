@@ -7501,7 +7501,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">importlib</span>
@@ -7531,7 +7531,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">utils</span><span class="o">.</span><span class="n">pandas_config</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span>
@@ -7549,7 +7549,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">INCLUDE_MODELS</span> <span class="o">=</span> <span class="p">[</span>
@@ -8745,7 +8745,7 @@ File <span class="ansi-green-fg">~/miniconda3/envs/rapids_v2/lib/python3.10/site
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [38]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython2"><pre><span></span><span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">data_loader</span><span class="p">)</span>
@@ -8769,7 +8769,8 @@ File <span class="ansi-green-fg">~/miniconda3/envs/rapids_v2/lib/python3.10/site
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Dropping cols where: sub_grade is missing 2034631 -&gt; 2034601
+<pre>Sampled n: 101732
+Dropping cols where: sub_grade is missing 101732 -&gt; 101730
 </pre>
 </div>
 </div>
@@ -8783,13 +8784,13 @@ File <span class="ansi-green-fg">~/miniconda3/envs/rapids_v2/lib/python3.10/site
 <div class="jp-OutputArea-child">
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
-<pre>Total samples loaded : 2034601
+<pre>Total samples loaded : 101730
 </pre>
 </div>
 </div>
 </div>
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs" id="cell-id=c31db58c4ea0acbf">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell" id="cell-id=c31db58c4ea0acbf">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -8809,6 +8810,26 @@ File <span class="ansi-green-fg">~/miniconda3/envs/rapids_v2/lib/python3.10/site
 
     <span class="n">ModelTrainingResult</span><span class="o">.</span><span class="n">serialize_model</span><span class="p">(</span><span class="n">cv_results</span><span class="p">,</span> <span class="n">model_key</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell-outputWrapper">
+<div class="jp-Collapser jp-OutputCollapser jp-Cell-outputCollapser">
+</div>
+<div class="jp-OutputArea jp-Cell-outputArea">
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
+<pre>The y_pred values do not sum to one. Starting from 1.5 thiswill result in an error.
+</pre>
+</div>
+</div>
+<div class="jp-OutputArea-child">
+<div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
+<pre>Training: XGBoostF1Multiclass with: {'feat_trans_delinquency__option': 0, 'feat_trans_dti_inc_joint__option': 0, 'feat_trans_dummy_DROP_ALL_BUT_FICO_HIGH__option': 0, 'feat_trans_fico_score__option': 0, 'feat_trans_inst_income_ratio__option': 0, 'feat_trans_loan_grade__option': 0, 'feat_trans_new_dti_after_loan__option': 0, 'model__n_estimators': 150, 'model__min_child_weight': 2.5, 'model__max_depth': 7, 'model__learning_rate': 0.3, 'model__gamma': 0.1}
+</pre>
 </div>
 </div>
 </div>
